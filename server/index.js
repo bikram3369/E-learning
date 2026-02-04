@@ -76,7 +76,7 @@ app.use(cookieParser());
 // );
 app.use(
   cors({
-    origin: "https://e-learning-afvk.vercel.app",
+    origin: "https://e-learning-wj3h.vercel.app",
     credentials: true,
   })
 );

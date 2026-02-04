@@ -44,9 +44,8 @@ export const createCheckoutSession = async (req, res) => {
       mode: "payment",
 
       // ⭐ Clean success redirect (webhook handles everything)
-      success_url: `http://localhost:5173/course-progress/${courseId}`,
-
-      cancel_url: `http://localhost:5173/course-detail/${courseId}`,
+      success_url: `https://e-learning-wj3h.vercel.app/course-progress/${courseId}`,
+      cancel_url: `https://e-learning-wj3h.vercel.app/course-detail/${courseId}`,
 
       metadata: {
         courseId: courseId,
@@ -112,21 +111,19 @@ export const stripeWebhook = async (req, res) => {
       if (purchase.courseId && purchase.courseId.lectures.length > 0) {
         await Lecture.updateMany(
           { _id: { $in: purchase.courseId.lectures } },
-          { $set: { isPreviewFree: true } }
+          { $set: { isPreviewFree: true } },
         );
       }
 
       await purchase.save();
 
-      await User.findByIdAndUpdate(
-        purchase.userId,
-        { $addToSet: { enrolledCourses: purchase.courseId._id } }
-      );
+      await User.findByIdAndUpdate(purchase.userId, {
+        $addToSet: { enrolledCourses: purchase.courseId._id },
+      });
 
-      await Course.findByIdAndUpdate(
-        purchase.courseId._id,
-        { $addToSet: { enrolledStudents: purchase.userId } }
-      );
+      await Course.findByIdAndUpdate(purchase.courseId._id, {
+        $addToSet: { enrolledStudents: purchase.userId },
+      });
 
       console.log("✔️ Enrollment saved!");
     } catch (error) {
@@ -137,7 +134,6 @@ export const stripeWebhook = async (req, res) => {
 
   res.status(200).send();
 };
-
 
 // -------------------------------------------
 // GET COURSE DETAIL WITH PURCHASE STATUS

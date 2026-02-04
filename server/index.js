@@ -76,7 +76,7 @@ app.use(cookieParser());
 // );
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://e-learning-afvk.vercel.app",
     credentials: true,
   })
 );

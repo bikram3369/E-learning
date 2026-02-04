@@ -75,17 +75,20 @@ export const searchCourse = async (req, res) => {
     try {
         const { query = "", categories = [], sortByPrice = "" } = req.query;
 
-        // Convert categories properly
+        // Normalize & convert category input ↓↓↓
         let categoryArray = [];
 
+        // Case 1: categories = "MERN,Docker"
         if (typeof categories === "string" && categories.length > 0) {
-            categoryArray = categories.split(",");  
+            categoryArray = categories.split(",").map(c => c.trim());
         }
 
+        // Case 2: categories = ["MERN", "Docker"]
         if (Array.isArray(categories) && categories.length > 0) {
-            categoryArray = categories;
+            categoryArray = categories.map(c => c.trim());
         }
 
+        // Build search object
         const searchCriteria = {
             isPublished: true,
             $or: [
@@ -95,25 +98,35 @@ export const searchCourse = async (req, res) => {
             ],
         };
 
-        // Apply category filter correctly
+        // Apply CATEGORY FILTER — case-insensitive exact match
         if (categoryArray.length > 0) {
-            searchCriteria.category = { $in: categoryArray };
+            searchCriteria.category = { 
+                $in: categoryArray.map(
+                    c => new RegExp(`^${c}$`, "i") // exact match ignoring case
+                )
+            };
         }
 
+        // Sorting
         const sortOptions = {};
         if (sortByPrice === "low") sortOptions.coursePrice = 1;
         if (sortByPrice === "high") sortOptions.coursePrice = -1;
 
+        // Fetch courses
         const courses = await Course.find(searchCriteria)
             .populate({ path: "creator", select: "name photoUrl" })
             .sort(sortOptions);
 
-        return res.status(200).json({ success: true, courses });
+        return res.status(200).json({
+            success: true,
+            courses: courses || []
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Search failed" });
     }
 };
+
 
 
 export const getPublishedCourse = async (_,res) => {

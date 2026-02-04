@@ -1,1 +1,1 @@
-export const BASE_URL = "https://e-learning-xi-brown.vercel.app";
+export const BASE_URL = "https://e-learning-uiqp.onrender.com";

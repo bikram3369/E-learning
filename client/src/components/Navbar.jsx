@@ -180,9 +180,14 @@ const MobileNavbar = ({ user }) => {
         <Separator className="my-2" />
 
         <nav className="flex flex-col space-y-4">
+           <SheetHeader className="flex flex-row items-center justify-between mt-2">
           <SheetClose asChild>
-            <Link to="/my-learning">My Learning</Link>
+            <SheetTitle className="cursor-pointer">
+              <Link to="/">E-Learning</Link>
+            </SheetTitle>
           </SheetClose>
+          <DarkMode />
+        </SheetHeader>
 
           <SheetClose asChild>
             <Link to="/profile">Edit Profile</Link>

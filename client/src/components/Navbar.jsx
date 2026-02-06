@@ -170,17 +170,7 @@ const MobileNavbar = ({ user }) => {
       </SheetTrigger>
 
       <SheetContent className="flex flex-col">
-        <SheetHeader className="flex flex-row items-center justify-between mt-2">
-          <SheetTitle>
-            <Link to="/">E-Learning</Link>
-          </SheetTitle>
-          <DarkMode />
-        </SheetHeader>
-
-        <Separator className="my-2" />
-
-        <nav className="flex flex-col space-y-4">
-           <SheetHeader className="flex flex-row items-center justify-between mt-2">
+         <SheetHeader className="flex flex-row items-center justify-between mt-2">
           <SheetClose asChild>
             <SheetTitle className="cursor-pointer">
               <Link to="/">E-Learning</Link>
@@ -188,6 +178,13 @@ const MobileNavbar = ({ user }) => {
           </SheetClose>
           <DarkMode />
         </SheetHeader>
+
+        <Separator className="my-2" />
+
+        <nav className="flex flex-col space-y-4">
+          <SheetClose asChild>
+            <Link to="/my-learning">My Learning</Link>
+          </SheetClose>
 
           <SheetClose asChild>
             <Link to="/profile">Edit Profile</Link>

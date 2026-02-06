@@ -115,73 +115,9 @@ const Navbar = () => {
 export default Navbar;
 
 
-// const MobileNavbar = ({ user }) => {
-//   const navigate = useNavigate();
-//   const [logoutUser] = useLogoutUserMutation(); // ADD THIS
-
-//   const logoutHandler = async () => {
-//     await logoutUser();
-//     navigate("/login");
-//   };
-
-//   return (
-//     <Sheet>
-//       <SheetTrigger asChild>
-//         <Button
-//           size="icon"
-//           className="rounded-full hover:bg-gray-200"
-//           variant="outline"
-//         >
-//           <Menu />
-//         </Button>
-//       </SheetTrigger>
-
-//       <SheetContent className="flex flex-col">
-//         <SheetHeader className="flex flex-row items-center justify-between mt-2">
-//           <SheetClose asChild>
-//             <div className="text-xl font-bold cursor-pointer">
-//               <Link to="/">E-Learning</Link>
-//             </div>
-//           </SheetClose>
-//           <DarkMode />
-//         </SheetHeader>
-
-//         <Separator className="my-2" />
-
-//         <nav className="flex flex-col space-y-4">
-//           <SheetClose asChild>
-//             <Link to="/my-learning">My Learning</Link>
-//           </SheetClose>
-
-//           <SheetClose asChild>
-//             <Link to="/profile">Edit Profile</Link>
-//           </SheetClose>
-
-//           {/* 🔥 FIXED LOGOUT BUTTON */}
-//           <SheetClose asChild>
-//             <button onClick={logoutHandler} className="text-left">
-//               Log out
-//             </button>
-//           </SheetClose>
-//         </nav>
-
-//         {user?.role === "instructor" && (
-//           <SheetFooter>
-//             <SheetClose asChild>
-//               <Button onClick={() => navigate("/admin/dashboard")}>
-//                 Dashboard
-//               </Button>
-//             </SheetClose>
-//           </SheetFooter>
-//         )}
-//       </SheetContent>
-//     </Sheet>
-//   );
-// };
-
 const MobileNavbar = ({ user }) => {
   const navigate = useNavigate();
-  const [logoutUser] = useLogoutUserMutation();
+  const [logoutUser] = useLogoutUserMutation(); // ADD THIS
 
   const logoutHandler = async () => {
     await logoutUser();
@@ -201,22 +137,18 @@ const MobileNavbar = ({ user }) => {
       </SheetTrigger>
 
       <SheetContent className="flex flex-col">
-
-        {/* 🟢 FIX: No SheetHeader — direct clickable box */}
-        <div className="flex items-center justify-between mt-2 mb-4">
+        <SheetHeader className="flex flex-row items-center justify-between mt-2">
           <SheetClose asChild>
-            <div className="text-xl font-extrabold cursor-pointer">
+            <div className="text-xl font-bold cursor-pointer">
               <Link to="/">E-Learning</Link>
             </div>
           </SheetClose>
-
           <DarkMode />
-        </div>
+        </SheetHeader>
 
         <Separator className="my-2" />
 
-        <nav className="flex flex-col space-y-4 text-lg">
-
+        <nav className="flex flex-col space-y-4">
           <SheetClose asChild>
             <Link to="/my-learning">My Learning</Link>
           </SheetClose>
@@ -225,23 +157,23 @@ const MobileNavbar = ({ user }) => {
             <Link to="/profile">Edit Profile</Link>
           </SheetClose>
 
+          {/* 🔥 FIXED LOGOUT BUTTON */}
           <SheetClose asChild>
-            <button onClick={logoutHandler} className="text-left">Log out</button>
+            <button onClick={logoutHandler} className="text-left">
+              Log out
+            </button>
           </SheetClose>
-
         </nav>
 
-        {/* Admin */}
         {user?.role === "instructor" && (
-          <div className="mt-auto pt-6">
+          <SheetFooter>
             <SheetClose asChild>
-              <Button onClick={() => navigate("/admin/dashboard")} className="w-full">
+              <Button onClick={() => navigate("/admin/dashboard")}>
                 Dashboard
               </Button>
             </SheetClose>
-          </div>
+          </SheetFooter>
         )}
-
       </SheetContent>
     </Sheet>
   );

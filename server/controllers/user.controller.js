@@ -85,15 +85,39 @@ export const login = async (req, res) => {
 };
 
 // ---------------- LOGOUT ----------------
+// export const logout = async (_, res) => {
+//   try {
+//     return res
+//       .status(200)
+//       .cookie("token", "", {
+//         maxAge: 0,
+//         httpOnly: true,
+//         secure: true,
+//         sameSite: "none",
+//       })
+//       .json({
+//         message: "Logged out successfully.",
+//         success: true,
+//       });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to logout",
+//     });
+//   }
+// };
+
 export const logout = async (_, res) => {
   try {
     return res
       .status(200)
       .cookie("token", "", {
-        maxAge: 0,
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        expires: new Date(0),   // ← REQUIRED FOR MOBILE
+        path: "/",              // ← CRITICAL ON VERSEL/RENDER
       })
       .json({
         message: "Logged out successfully.",
@@ -107,6 +131,7 @@ export const logout = async (_, res) => {
     });
   }
 };
+
 
 // ---------------- PROFILE DETAILS ----------------
 export const getUserProfile = async (req, res) => {

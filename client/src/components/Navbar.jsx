@@ -114,8 +114,15 @@ const Navbar = () => {
 
 export default Navbar;
 
-// const MobileNavbar = ({user}) => {
+
+// const MobileNavbar = ({ user }) => {
 //   const navigate = useNavigate();
+//   const [logoutUser] = useLogoutUserMutation(); // ADD THIS
+
+//   const logoutHandler = async () => {
+//     await logoutUser();
+//     navigate("/login");
+//   };
 
 //   return (
 //     <Sheet>
@@ -128,21 +135,42 @@ export default Navbar;
 //           <Menu />
 //         </Button>
 //       </SheetTrigger>
+
 //       <SheetContent className="flex flex-col">
 //         <SheetHeader className="flex flex-row items-center justify-between mt-2">
-//           <SheetTitle> <Link to="/">E-Learning</Link></SheetTitle>
+//           <SheetClose asChild>
+//             <div className="text-xl font-bold cursor-pointer">
+//               <Link to="/">E-Learning</Link>
+//             </div>
+//           </SheetClose>
 //           <DarkMode />
 //         </SheetHeader>
-//         <Separator className="mr-2" />
+
+//         <Separator className="my-2" />
+
 //         <nav className="flex flex-col space-y-4">
-//           <Link to="/my-learning">My Learning</Link>
-//           <Link to="/profile">Edit Profile</Link>
-//           <p>Log out</p>
+//           <SheetClose asChild>
+//             <Link to="/my-learning">My Learning</Link>
+//           </SheetClose>
+
+//           <SheetClose asChild>
+//             <Link to="/profile">Edit Profile</Link>
+//           </SheetClose>
+
+//           {/* 🔥 FIXED LOGOUT BUTTON */}
+//           <SheetClose asChild>
+//             <button onClick={logoutHandler} className="text-left">
+//               Log out
+//             </button>
+//           </SheetClose>
 //         </nav>
+
 //         {user?.role === "instructor" && (
 //           <SheetFooter>
 //             <SheetClose asChild>
-//               <Button type="submit" onClick={()=> navigate("/admin/dashboard")}>Dashboard</Button>
+//               <Button onClick={() => navigate("/admin/dashboard")}>
+//                 Dashboard
+//               </Button>
 //             </SheetClose>
 //           </SheetFooter>
 //         )}
@@ -150,9 +178,10 @@ export default Navbar;
 //     </Sheet>
 //   );
 // };
+
 const MobileNavbar = ({ user }) => {
   const navigate = useNavigate();
-  const [logoutUser] = useLogoutUserMutation(); // ADD THIS
+  const [logoutUser] = useLogoutUserMutation();
 
   const logoutHandler = async () => {
     await logoutUser();
@@ -172,18 +201,22 @@ const MobileNavbar = ({ user }) => {
       </SheetTrigger>
 
       <SheetContent className="flex flex-col">
-        <SheetHeader className="flex flex-row items-center justify-between mt-2">
+
+        {/* 🟢 FIX: No SheetHeader — direct clickable box */}
+        <div className="flex items-center justify-between mt-2 mb-4">
           <SheetClose asChild>
-            <div className="text-xl font-bold cursor-pointer">
+            <div className="text-xl font-extrabold cursor-pointer">
               <Link to="/">E-Learning</Link>
             </div>
           </SheetClose>
+
           <DarkMode />
-        </SheetHeader>
+        </div>
 
         <Separator className="my-2" />
 
-        <nav className="flex flex-col space-y-4">
+        <nav className="flex flex-col space-y-4 text-lg">
+
           <SheetClose asChild>
             <Link to="/my-learning">My Learning</Link>
           </SheetClose>
@@ -192,23 +225,23 @@ const MobileNavbar = ({ user }) => {
             <Link to="/profile">Edit Profile</Link>
           </SheetClose>
 
-          {/* 🔥 FIXED LOGOUT BUTTON */}
           <SheetClose asChild>
-            <button onClick={logoutHandler} className="text-left">
-              Log out
-            </button>
+            <button onClick={logoutHandler} className="text-left">Log out</button>
           </SheetClose>
+
         </nav>
 
+        {/* Admin */}
         {user?.role === "instructor" && (
-          <SheetFooter>
+          <div className="mt-auto pt-6">
             <SheetClose asChild>
-              <Button onClick={() => navigate("/admin/dashboard")}>
+              <Button onClick={() => navigate("/admin/dashboard")} className="w-full">
                 Dashboard
               </Button>
             </SheetClose>
-          </SheetFooter>
+          </div>
         )}
+
       </SheetContent>
     </Sheet>
   );

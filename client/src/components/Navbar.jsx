@@ -85,7 +85,9 @@ const Navbar = () => {
                 {user?.role === "instructor" && (
                   <>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link></DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/admin/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
                   </>
                 )}
               </DropdownMenuContent>
@@ -104,7 +106,7 @@ const Navbar = () => {
       {/* Mobile device  */}
       <div className="flex md:hidden items-center justify-between px-4 h-full">
         <h1 className="font-extrabold text-2xl">E-learning</h1>
-        <MobileNavbar user={user}/>
+        <MobileNavbar user={user} />
       </div>
     </div>
   );
@@ -114,7 +116,7 @@ export default Navbar;
 
 // const MobileNavbar = ({user}) => {
 //   const navigate = useNavigate();
-  
+
 //   return (
 //     <Sheet>
 //       <SheetTrigger asChild>
@@ -170,11 +172,11 @@ const MobileNavbar = ({ user }) => {
       </SheetTrigger>
 
       <SheetContent className="flex flex-col">
-         <SheetHeader className="flex flex-row items-center justify-between mt-2">
+        <SheetHeader className="flex flex-row items-center justify-between mt-2">
           <SheetClose asChild>
-            <SheetTitle className="cursor-pointer">
+            <div className="text-xl font-bold cursor-pointer">
               <Link to="/">E-Learning</Link>
-            </SheetTitle>
+            </div>
           </SheetClose>
           <DarkMode />
         </SheetHeader>
@@ -192,10 +194,7 @@ const MobileNavbar = ({ user }) => {
 
           {/* 🔥 FIXED LOGOUT BUTTON */}
           <SheetClose asChild>
-            <button
-              onClick={logoutHandler}
-              className="text-left"
-            >
+            <button onClick={logoutHandler} className="text-left">
               Log out
             </button>
           </SheetClose>
